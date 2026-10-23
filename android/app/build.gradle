@@ -1,4 +1,23 @@
 plugins { id 'com.android.application' }
+
+// Google sample IDs are for local DEBUG test ads only.
+// A release never requests ads unless explicitly opted in with real IDs.
+def sampleAppId = 'ca-app-pub-3940256099942544~3347511713'
+def sampleBannerId = 'ca-app-pub-3940256099942544/9214589741'
+def configuredAppId = (findProperty('admobAppId') ?: '').toString().trim()
+def configuredBannerId = (findProperty('admobBannerUnitId') ?: '').toString().trim()
+def enableProductionAds = (findProperty('enableProductionAds') ?: 'false').toString().toBoolean()
+if (configuredAppId && !(configuredAppId ==~ /ca-app-pub-[0-9]{16}~[0-9]{10}/)) {
+ throw new GradleException('AdMob app ID has an invalid format.')
+}
+if (configuredBannerId && !(configuredBannerId ==~ /ca-app-pub-[0-9]{16}\/[0-9]{10}/)) {
+ throw new GradleException('AdMob banner unit ID has an invalid format.')
+}
+if (enableProductionAds && (!configuredAppId || !configuredBannerId || configuredAppId == sampleAppId || configuredBannerId == sampleBannerId)) {
+ throw new GradleException('Live banners require a real AdMob app ID and banner unit ID. Never release with sample IDs.')
+}
+def adsEnabledForRelease = enableProductionAds && configuredAppId && configuredBannerId
+
 android {
  namespace 'nz.findthecash.fudge'
  compileSdk 36
@@ -6,11 +25,28 @@ android {
   applicationId 'nz.findthecash.fudge'
   minSdk 26
   targetSdk 36
-  versionCode 2
-  versionName '1.1'
+  versionCode 3
+  versionName '1.2'
   buildConfigField 'String', 'SHOP_URL', '""'
  }
  buildFeatures { buildConfig true }
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
- buildTypes { release { minifyEnabled false } }
+ buildTypes {
+  debug {
+   manifestPlaceholders = [admobAppId: sampleAppId]
+   buildConfigField 'boolean', 'BANNER_ADS_ENABLED', 'true'
+   buildConfigField 'String', 'BANNER_AD_UNIT_ID', '"' + sampleBannerId + '"'
+  }
+  release {
+   minifyEnabled false
+   manifestPlaceholders = [admobAppId: adsEnabledForRelease ? configuredAppId : sampleAppId]
+   buildConfigField 'boolean', 'BANNER_ADS_ENABLED', adsEnabledForRelease.toString()
+   buildConfigField 'String', 'BANNER_AD_UNIT_ID', '"' + (adsEnabledForRelease ? configuredBannerId : '') + '"'
+  }
+ }
+}
+
+dependencies {
+ implementation 'com.google.android.gms:play-services-ads:25.5.0'
+ implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
 }
