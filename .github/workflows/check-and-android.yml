@@ -30,12 +30,31 @@ jobs:
           distribution: temurin
           java-version: '17'
       - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
+          log-accepted-android-sdk-licenses: false
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.13'
           cache-disabled: true
       - run: node scripts/android-assets.mjs
       - run: gradle -p android assembleDebug bundleRelease --no-daemon
+      - name: Verify APK signature and closed preview contents
+        shell: bash
+        run: |
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs android/app/build/outputs/apk/debug/app-debug.apk > build-validation.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging android/app/build/outputs/apk/debug/app-debug.apk >> build-validation.txt
+          python3 - <<'PY'
+          import json,zipfile
+          with zipfile.ZipFile('android/app/build/outputs/apk/debug/app-debug.apk') as z:
+              config=json.loads(z.read('assets/config.json'))
+              assert config['acceptingRequests'] is False
+              assert config['products']==[]
+              assert config['pickup']['enabled'] is False
+              assert config['business']['email']==''
+              assert z.read('assets/index.html')
+          print('APK signature, package metadata and closed bundled catalogue checked.')
+          PY
       - name: Save installable preview in a draft release
         env:
           GH_TOKEN: ${{ github.token }}
@@ -46,4 +65,4 @@ jobs:
           cp android/app/build/outputs/apk/debug/app-debug.apk Find-The-Cash-NZ-Fudge-preview.apk
           cp android/app/build/outputs/bundle/release/app-release.aab Find-The-Cash-NZ-Fudge-unsigned.aab
           sha256sum Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab > SHA256SUMS.txt
-          gh release create "$tag" --draft --target "$GITHUB_SHA" --title "Android test build ${GITHUB_RUN_NUMBER}" --notes "Installable debug APK for testing the closed shop. Unsigned AAB is not Play-ready. No payment or live sales enabled." Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab SHA256SUMS.txt
+          gh release create "$tag" --draft --target "$GITHUB_SHA" --title "Android test build ${GITHUB_RUN_NUMBER}" --notes "Installable debug APK for testing the closed shop. Unsigned AAB is not Play-ready. No payment or live sales enabled." Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab SHA256SUMS.txt build-validation.txt
