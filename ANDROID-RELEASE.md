@@ -2,7 +2,7 @@
 
 ## Current status
 
-Java source, manifest, Gradle project, branded vector icon and bundled preview assets are supplied. Target/compile SDK is 36; minimum SDK is 26; Java 17; Android Gradle Plugin 8.13.0; Gradle 8.13 in CI. The app uses the operating system WebView and Android APIs without an extra runtime framework, analytics SDK or native bridge. Build compatibility and device behaviour remain unverified until a real Android build/test.
+Java source, manifest, Gradle project, branded vector icon and bundled preview assets are supplied. Target/compile SDK is 36; minimum SDK is 26; Java 17; Android Gradle Plugin 8.13.0; Gradle 8.13 in CI. The app uses the operating system WebView and Android APIs without an extra runtime framework, analytics SDK or native bridge. Compilation passed in [GitHub Actions](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/actions/runs/39924362340); APK v2 signature verification and package/target SDK checks passed. Device behaviour remains untested on a physical phone.
 
 By default the app opens its bundled closed catalogue at a reserved app-assets HTTPS origin. Ordering is blocked on that origin even if the bundled config is edited. To connect it to a verified hosted storefront, change the empty SHOP_URL buildConfigField in android/app/build.gradle to the actual HTTPS shop URL. Use a stable URL and re-run the asset copy before each build. Do not substitute an invented URL or an unrelated site.
 
@@ -10,7 +10,7 @@ By default the app opens its bundled closed catalogue at a reserved app-assets H
 
 After creating/pushing the new public GitHub repository, open its Actions tab, run **Check website and build Android preview**, and inspect the result. It installs standard build tools, runs tests and creates a debug APK and unsigned release AAB as downloadable assets in a draft GitHub release. It does not publish the draft release, sign a production release or deploy the shop. It uses standard public-repository runners, disables the Gradle cache and avoids Actions artifact storage; binaries are attached to the draft release instead.
 
-The debug APK is for sideloaded testing only. The unsigned AAB cannot be installed or uploaded as a finished release. Do not claim successful compilation until the workflow is green and the draft release contains the binaries. Download draft release assets while signed into the owning account.
+The debug APK is for sideloaded testing only. The unsigned AAB cannot be installed or uploaded as a finished release. The successful second workflow run created the draft release android-preview-2-1 with both binaries, SHA-256 checksums and build-validation.txt. Download draft release assets while signed into the owning account.
 
 ## Build locally with Android Studio
 
@@ -32,4 +32,4 @@ Official references: [target API requirements](https://developer.android.com/goo
 
 ## Updates during GitHub setup
 
-The shell now uses platform Back callbacks on Android 13+ (including Android 16), and applies system-bar/cutout insets. The workflow saves binaries and SHA-256 checksums in a draft release rather than billable Actions artifact storage. GitHub CLI sign-in is being refreshed; remote creation and build results must be verified before this is called a compiled app. Debug builds use an ephemeral CI debug certificate; later builds may require uninstalling an older preview first. This does not affect production signing, which has not been configured.
+The shell now uses platform Back callbacks on Android 13+ (including Android 16), and applies system-bar/cutout insets. The workflow saves binaries and SHA-256 checksums in a draft release rather than billable Actions artifact storage. GitHub CLI sign-in and separate public repository creation are complete. The corrected build and downloaded-file checksums have been verified. Debug builds use an ephemeral CI debug certificate; later builds may require uninstalling an older preview first. This does not affect production signing, which has not been configured.

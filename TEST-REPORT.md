@@ -15,10 +15,10 @@
 
 - No real stock, product prices or supplier availability were supplied or fabricated. Populated catalogue/cart calculations use synthetic fixtures only inside tests, not live stock. A browser journey with actual product data remains required before launch.
 - Offline/service-worker installation behaviour and Android PWA installation were not tested on a physical phone. Offline safeguards were checked at source/logic level, not by disconnecting a device.
-- No live hosting deployment or public GitHub remote. GitHub Pages is unsuitable under its commerce restrictions. GitHub CLI login is expired; connected GitHub tools can read the profile but cannot create repositories.
-- Android compilation, APK/AAB installation, screen-reader behaviour on a device, signing and Play review were not performed. Android SDK and Gradle are not installed locally; the supplied CI workflow has not run remotely. No compiled app binary is included.
+- No live hosting deployment. The new public GitHub repository was created after successful CLI sign-in. GitHub Pages remains unsuitable under its commerce restrictions.
+- Android compilation passed remotely. A debug APK (test-signed) and unsigned release AAB were downloaded; APK v2 signature, package ID nz.findthecash.fudge, minimum SDK 26, target SDK 36 and closed bundled catalogue were verified in CI. Both downloaded-file SHA-256 values matched the release checksums. Physical-device installation, screen-reader behaviour, production signing and Play review remain outstanding.
 - The local owner editor/notebook scripts passed syntax checks, but their import/export interactions were not tested in the browser.
 - No business registration/exemption determination, pack-label verification, stock inspection, shipping quote, privacy retention decision or legal review. The launch gates require the owner to supply/verify these.
 - No payment, sent email, accepted order, purchased service, secret, signing key or Play upload.
 
-The project is a tested local website foundation with Android build source. It is not a live or sale-ready business and not a signed Android release.
+The project includes a compiled, test-signed Android preview and a public source repository. It remains closed to sales. Production signing and Play release remain outstanding. Successful build: [https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/actions/runs/39924362340](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/actions/runs/39924362340), source commit 875a1ca. The original email stayed local and is absent from the public copy and its history.

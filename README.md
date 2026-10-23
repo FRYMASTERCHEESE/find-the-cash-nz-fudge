@@ -49,20 +49,15 @@ Open tools/order-manager.html for a private status notebook. It saves in memory 
 
 **Do not enable GitHub Pages for this shop.** [GitHub expressly prohibits using Pages to run an online business or e-commerce site](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits). A free public repository can hold source independently of hosting.
 
-This folder is its own Git repository; it does not share project history with your existing work. A public remote was not created because the local GitHub login is invalid and the connected GitHub tool has no repository-creation action. After refreshing your GitHub login, from this folder:
+The separate public repository is [https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge). It starts with fresh history and omits the owner-supplied email address. Original contact settings remain local outside this public repository.
 
-```text
-gh auth login
-gh repo create find-the-cash-nz-fudge --public --source=. --remote=origin --push
-```
-
-If that name is taken, choose a new distinct name. Check the selected account and upload only this project. This public copy starts with a fresh history and omits the owner-supplied email address. Import your privately held contact settings locally when preparing a launch. The included GitHub Actions workflow tests the website and builds Android preview binaries in a draft release; it does not deploy a website or submit to Google Play. It uses standard build actions, not storefront plugins. Build success is not yet verified in GitHub Actions.
+The included GitHub Actions workflow tests the website and builds Android preview binaries in a draft release. It uses standard public runners, disables the Gradle cache and avoids Actions artifact storage. It does not deploy the website, publish the release or submit to Play. The second build completed successfully; the first build failed on an obsolete SDK package and was corrected.
 
 [Cloudflare Pages offers a $0 tier](https://www.cloudflare.com/developer-platform/products/pages/). It is a possible static hosting alternative, subject to its current terms and limits. Using it requires your choice of that service and account setup; no account, paid plan or hosting deployment has been created. Connect the new repository, use no framework/build command and set output directory to **web**. Do not upload the project root, tools/, templates/ or private customer records. Use the supplied free subdomain; a purchased domain is optional. Keep requests disabled for the first preview deployment and verify the live site before opening sales.
 
 ## Android and Google Play
 
-See **ANDROID-RELEASE.md**. No APK or AAB has been compiled locally because the Android SDK and Gradle are absent. Java 17 is installed. The included source/build workflow is preparation, not a signed or Play-approved release.
+See **ANDROID-RELEASE.md**. Android compilation passed in [GitHub Actions](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/actions/runs/39924362340) on 23 October 2026. The draft release android-preview-2-1 contains a signed debug APK, unsigned AAB, checksums and signature/package verification. See INSTALL-ANDROID.md. The APK still needs a phone test; production signing and Play review are outstanding.
 
 ## Verification
 
