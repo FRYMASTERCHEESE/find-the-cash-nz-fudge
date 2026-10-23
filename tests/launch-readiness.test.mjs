@@ -31,7 +31,7 @@ test('actual live-availability UI remains guarded behind physical pack checks', 
   assert.ok(web.includes('disabled>Review email request'));
 });
 
-test('Android preview bundle has its own local branded SVG assets without trackers', () => {
+test('Android sync candidate bundles shared brand assets without trackers', () => {
   for (const f of ['web/launch.css','web/mark.svg','web/sweets.svg']) assert.ok(existsSync(new URL('../'+f,import.meta.url)),f);
   const css=file('web/launch.css');
   assert.match(css, /@media\(max-width:760px\)/);
@@ -41,9 +41,10 @@ test('Android preview bundle has its own local branded SVG assets without tracke
   for (const name of ['launch.css','mark.svg','sweets.svg']) assert.ok(worker.includes("'./"+name+"'"));
   assert.doesNotMatch(worker,/const FILES=[^\n]*config\.json/);
   const gradle=file('android/app/build.gradle');
-  assert.match(gradle,/versionCode 3/);
-  assert.match(gradle,/versionName '1\.2'/);
-  assert.match(gradle,/SHOP_URL', '""'/);
+  assert.match(gradle,/versionCode 4/);
+  assert.match(gradle,/versionName '1\.3'/);
+  assert.match(gradle,/PREVIEW_URL'/);
+  assert.match(gradle,/frymastercheese\.github\.io\/find-the-cash-nz-fudge/);
   assert.doesNotMatch(gradle,/play-services-ads|admobAppId/);
   const manifest=file('android/app/src/main/AndroidManifest.xml');
   assert.doesNotMatch(manifest,/AD_ID|com\.google\.android\.gms\.ads/);
