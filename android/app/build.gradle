@@ -14,3 +14,18 @@ android {
  compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
  buildTypes { release { minifyEnabled false } }
 }
+
+
+// Android Studio and CI must package the exact same public, read-only docs
+// as GitHub Pages. This task intentionally deletes old web/ checkout assets.
+tasks.register('syncPublishedPreview', Sync) {
+ from(rootProject.file('../docs')) {
+  include 'index.html', 'site.css', 'mark.svg', 'sweets.svg',
+          'privacy.html', 'stockists.html', 'food-and-orders.html'
+ }
+ into(file('src/main/assets'))
+}
+tasks.matching { it.name == 'preBuild' ||
+ it.name.matches('merge.*Assets') }.configureEach {
+ dependsOn tasks.named('syncPublishedPreview')
+}
