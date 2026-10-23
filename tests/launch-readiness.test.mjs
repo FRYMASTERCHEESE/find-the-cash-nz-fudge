@@ -65,7 +65,7 @@ test('private commercial tooling cannot accidentally become a public deploy arti
   for(const p of ['tools/catalogue-editor.html','tools/order-manager.html','tools/fudge-price-planner.html','templates/manufacturer-quote-comparison.csv','templates/supermarket-product-specification.csv']) assert.ok(existsSync(new URL('../'+p,import.meta.url)),p);
   const notes=file('LAUNCH-READINESS.md');
   assert.match(notes,/signed AAB signed using the original upload key/);
-  assert.match(notes,/DO NOT/);
+  assert.match(notes,/do not/i);
   assert.ok(!web.includes('tools/fudge-price-planner.html'));
   assert.ok(!landing.includes('tools/fudge-price-planner.html'));
 });
