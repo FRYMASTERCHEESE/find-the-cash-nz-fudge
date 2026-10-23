@@ -1,8 +1,28 @@
 # Find The Cash NZ — The Fudge Edit
 
+## October 24 2026: the unified branded preview
+
+The **public information-only brand website** is now styled to match the app concept:
+- [Find The Cash NZ Fudge website](https://frymastercheese.github.io/find-the-cash-nz-fudge/)
+- [Food, allergens, delivery & customer rights](https://frymastercheese.github.io/find-the-cash-nz-fudge/food-and-orders.html)
+- [For manufacturers, distributors & retail buyers](https://frymastercheese.github.io/find-the-cash-nz-fudge/stockists.html)
+- [Android preview privacy](https://frymastercheese.github.io/find-the-cash-nz-fudge/privacy.html)
+
+The \`web/\` source now shares its locally bundled SVG brand artwork and responsive theme with the information pages. This makes the **Android app preview branded, accessible and usable offline**, but does not suddenly give it live products, payments, a shop backend or shared stock. Every illustrated fudge category is labelled **concept only**. The public support email and Facebook link work.
+
+- **New Android candidate:** v1.2, version code **3**, no analytics or advertising SDK; needs signing with the original private Google Play upload key and submitting to internal/closed testing.
+- **Existing Play installation:** owner previously reported v1.1 (2) in internal testing. That version is **not automatically updated** by GitHub changes.
+- **Private free pricing tool:** open \`tools/fudge-price-planner.html\` on your own computer, enter REAL quotes and target margins. Keep output private.
+- **Spreadsheet templates:** \`templates/manufacturer-quote-comparison.csv\`, \`templates/supermarket-product-specification.csv\`, and existing stock register, ready to fill after manufacturer negotiations.
+- **Full release gates and next actions:** [LAUNCH-READINESS.md](LAUNCH-READINESS.md).
+- **AdMob:** [PR #1](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/pull/1) is a separate DRAFT / UNMERGED experiment. Banner ads are not in v1.2, and must not be declared live until a real ad-enabled build, consent, new privacy and Data safety statements are complete.
+
+**Do not enable real orders, money collection, or product listings before real manufacturer stock and food compliance are verified.** GitHub Pages must remain information-only; see the commerce-hosting restriction below.
+
+
 A separate, buildless storefront and installable PWA for a proposed New Zealand sealed-fudge resale business. No npm dependencies, payment services, analytics, paid plugins or backend subscription. The catalogue is deliberately empty and requests are closed. Pickup is disabled as requested.
 
-Business contact email is intentionally omitted from this public source · [Find The Cash NZ on Facebook](https://www.facebook.com/FindTheCashNz). Seller legal identity, actual stock/prices and shipping have not been supplied.
+Public support email: **findthecashnz@gmail.com** · [Find The Cash NZ on Facebook](https://www.facebook.com/FindTheCashNz). The legal seller identity, actual stock, wholesale quotes, GST status, prices and shipping have not been supplied. The owner **does not manufacture fudge**. Never include private supplier quotes, personal records or customer information in GitHub.
 
 ## Open the website locally
 
