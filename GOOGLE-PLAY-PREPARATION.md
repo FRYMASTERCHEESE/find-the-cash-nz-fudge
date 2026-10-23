@@ -1,4 +1,9 @@
-# Google Play preparation — 23 October 2026
+# Google Play preparation — 23 October 2026 (original checkpoint)
+
+> **Later user-reported status, 24 October 2026:** The app was created in Play Console and signed v1.1 (version code 2) was uploaded; internal testing was reportedly published to Findthecashnz@gmail.com. The steps and "no upload" text below describe an EARLIER build handoff, not current console state. This ChatGPT session did not independently access Play Console to reverify rollout.
+>
+> **New source candidate:** v1.2 (version code 3) adds matching web/app branding, food info and retailer enquiry links. It is NOT signed with the original upload key, NOT uploaded to Play, and its PWA screenshots must come from the actually running app (not AI mockups). The existing ad-free v1.1 declaration must not be reused for a future ad-enabled release without fresh privacy/Data safety analysis. Follow [LAUNCH-READINESS.md](LAUNCH-READINESS.md).
+
 
 Version 1.1 / version code 2, package **nz.findthecash.fudge**, target API 36, minimum API 26, was built successfully from commit **56c137f** in [GitHub Actions](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/actions/runs/39925387876).
 

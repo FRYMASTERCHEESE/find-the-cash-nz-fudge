@@ -14,9 +14,43 @@ jobs:
         with:
           node-version: '24'
       - run: npm test
+  android-pr-check:
+    needs: check
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
+          log-accepted-android-sdk-licenses: false
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+          cache-disabled: true
+      - run: node scripts/android-assets.mjs
+      - run: gradle -p android assembleDebug bundleRelease --no-daemon
+      - name: Ensure shipped app assets cannot accept sales
+        run: |
+          python3 - <<'PY'
+          import json,zipfile
+          with zipfile.ZipFile('android/app/build/outputs/apk/debug/app-debug.apk') as z:
+              c=json.loads(z.read('assets/config.json'))
+              assert c['acceptingRequests'] is False
+              assert c['products'] == []
+              assert c['shipping']['enabled'] is False
+              assert c['pickup']['enabled'] is False
+          PY
   android-preview:
     needs: check
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
     permissions:
       contents: write
     runs-on: ubuntu-latest
