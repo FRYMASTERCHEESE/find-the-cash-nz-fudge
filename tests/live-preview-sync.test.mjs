@@ -37,6 +37,8 @@ test('app online URL is pinned to published site with offline fallback and refre
  const java=text('android/app/src/main/java/nz/findthecash/fudge/MainActivity.java');
  assert.match(gradle,/versionCode 4/);
  assert.match(gradle,/versionName '1\.3'/);
+ assert.match(gradle,/syncPublishedPreview/);
+ assert.match(gradle,/tasks\.matching/);
  assert.match(gradle,/PREVIEW_URL', '"https:\/\/frymastercheese.github.io\/find-the-cash-nz-fudge\/"'/);
  assert.match(java,/BuildConfig\.PREVIEW_URL/);
  assert.match(java,/PUBLIC_PREFIX = "\/find-the-cash-nz-fudge\/"/);
