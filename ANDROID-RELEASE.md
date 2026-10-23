@@ -1,5 +1,10 @@
 # Android build and release handoff
 
+> **October 24 2026 addendum:** A new branded v1.2 (version code 3) Android preview source is prepared. The previous v1.1 build 2 was reportedly uploaded to Google Play internal testing by the owner's earlier Work session. Any "No Play upload" claims below refer to this document's older preparation checkpoint. To update Play, use the ORIGINAL private upload key to sign a v1.2 AAB, upload to an internal/closed test, and test on the actual device; the public GitHub workflow only produces unsigned release AABs. No new app secrets were created or published.
+>
+> New web/PWA assets include `web/launch.css`, `web/mark.svg` and `web/sweets.svg`, all bundled offline by `scripts/android-assets.mjs`. There are NO ads, payments or customer accounts in this version. The separate draft AdMob PR #1 is not part of the release.
+
+
 ## Current status
 
 Java source, manifest, Gradle project, branded vector icon and bundled preview assets are supplied. Target/compile SDK is 36; minimum SDK is 26; Java 17; Android Gradle Plugin 8.13.0; Gradle 8.13 in CI. The app uses the operating system WebView and Android APIs without an extra runtime framework, analytics SDK or native bridge. Compilation passed in [GitHub Actions](https://github.com/FRYMASTERCHEESE/find-the-cash-nz-fudge/actions/runs/39924362340); APK v2 signature verification and package/target SDK checks passed. Device behaviour remains untested on a physical phone.
