@@ -44,6 +44,7 @@ test('app online URL is pinned to published site with offline fallback and refre
  assert.match(java,/PUBLIC_PREFIX = "\/find-the-cash-nz-fudge\/"/);
  assert.match(java,/isApprovedWebsite\(Uri url\)/);
  assert.match(java,/isBundledPage\(Uri url\)/);
+ assert.match(java,/if \(!isBundledPage\(url\)\) return missing\(\)/);
  assert.match(java,/showOfflineCopy\(/);
  assert.match(java,/new WebResourceResponse/);
  assert.match(java,/setCacheMode\(WebSettings\.LOAD_NO_CACHE\)/);
