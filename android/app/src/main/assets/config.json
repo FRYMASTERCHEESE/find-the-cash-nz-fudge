@@ -1,0 +1,8 @@
+{
+  "acceptingRequests": false,
+  "business": {"legalName":"", "email":"", "facebookUrl":"https://www.facebook.com/FindTheCashNz", "privacyContact":"", "retentionPolicy":""},
+  "checks": {"foodRulesConfirmed":false,"storageAndRecallReady":false,"consumerPoliciesReviewed":false,"contactVerified":false},
+  "pickup": {"enabled":false,"area":"","instructions":"","feeCents":null},
+  "shipping": {"enabled":false,"area":"","details":"","feeCents":null},
+  "products": []
+}

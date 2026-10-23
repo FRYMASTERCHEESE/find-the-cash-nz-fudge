@@ -1,0 +1,49 @@
+name: Check website and build Android preview
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm test
+  android-preview:
+    needs: check
+    if: github.event_name != 'pull_request'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v3
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+          cache-disabled: true
+      - run: node scripts/android-assets.mjs
+      - run: gradle -p android assembleDebug bundleRelease --no-daemon
+      - name: Save installable preview in a draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          tag="android-preview-${GITHUB_RUN_NUMBER}-${GITHUB_RUN_ATTEMPT}"
+          cp android/app/build/outputs/apk/debug/app-debug.apk Find-The-Cash-NZ-Fudge-preview.apk
+          cp android/app/build/outputs/bundle/release/app-release.aab Find-The-Cash-NZ-Fudge-unsigned.aab
+          sha256sum Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab > SHA256SUMS.txt
+          gh release create "$tag" --draft --target "$GITHUB_SHA" --title "Android test build ${GITHUB_RUN_NUMBER}" --notes "Installable debug APK for testing the closed shop. Unsigned AAB is not Play-ready. No payment or live sales enabled." Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab SHA256SUMS.txt
