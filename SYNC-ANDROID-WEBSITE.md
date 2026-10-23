@@ -34,7 +34,7 @@ The owner/developer should:
 4. Upload the signed build 4 AAB to the appropriate internal/closed testing track, review and roll it out, then install it through the tester account.
 5. Verify links, Home, Sync, offline fallback and reconnect on a phone. Use authentic installed-app screenshots for the Play listing, not AI designs.
 
-**No manual Gradle setup is needed on GitHub Actions**: its workflow runs \`node scripts/android-assets.mjs\` followed by Gradle. If building in Android Studio yourself, run that same Node script from the repository root **before building**, so offline files match the live website source.
+**No manual Gradle setup is needed on GitHub Actions**: its workflow runs \`node scripts/android-assets.mjs\` followed by Gradle. If building in Android Studio, Gradle automatically runs the `syncPublishedPreview` task before packaging assets, so you don't need Node just to sync the offline copies. The Node script remains a direct testing and CI option. In both workflows only reviewed `docs/` files are included.
 
 ## Fallback files
 
