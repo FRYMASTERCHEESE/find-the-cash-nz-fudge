@@ -1,5 +1,7 @@
 # Find The Cash NZ — The Fudge Edit
 
+**Latest:** Read [SYNC-ANDROID-WEBSITE.md](SYNC-ANDROID-WEBSITE.md) for synced v1.3 build 4. Older v1.2 notes further down are historical checkpoints, not the newest release candidate.
+
 ## October 24 2026: automatic website-to-Android preview sync
 
 The information-only **live website** is the single source of truth for the Android preview. A new **v1.3 (version code 4) app candidate**:
