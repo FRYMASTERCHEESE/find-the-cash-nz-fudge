@@ -1,5 +1,22 @@
 # Find The Cash NZ — The Fudge Edit
 
+**Latest:** Read [SYNC-ANDROID-WEBSITE.md](SYNC-ANDROID-WEBSITE.md) for synced v1.3 build 4. Older v1.2 notes further down are historical checkpoints, not the newest release candidate.
+
+## October 24 2026: automatic website-to-Android preview sync
+
+The information-only **live website** is the single source of truth for the Android preview. A new **v1.3 (version code 4) app candidate**:
+- Loads the canonical public preview at https://frymastercheese.github.io/find-the-cash-nz-fudge/ when online. When the public pages are changed and redeployed from \`docs/\`, the updated Android app displays the same changes when it loads/refreshes; no new AAB is needed for normal text or design updates.
+- Offers a native **Sync** button that reloads the public website without using a stale WebView cache.
+- Displays a built-in copy of the SAME \`docs/\` pages if the website is unavailable. This copy is bundled at build time and may be older when offline; tap Sync when back online.
+- Opens non-project links (including Facebook/email) outside the app, enforces HTTPS for in-app pages, and disables JavaScript, cookies and checkout functionality for the read-only preview.
+- Provides a brand-matched experience online and offline; \`scripts/android-assets.mjs\` automatically copies only the reviewed public prelaunch pages into Android. It does NOT bundle stock/config, customer data or private owner tools.
+- Requires the existing **private Google Play upload key**, actual phone testing, and a signed AAB for Google Play **closed/internal testing**. The current installed v1.1 build 2 will NOT sync until the new build 4 is installed. GitHub's unsigned release is not Play-ready. Google may review or reject low-functionality WebView apps.
+
+**Scope of synchronization:** public prelaunch content (brand, artwork, messages, policy pages, manufacturer and retailer information). There is NO live backend for customers, shared product stock, orders, receipts, refunds, payments or advertising. Those require verified supplier arrangements and suitable commercial hosting; GitHub Pages is not licensed as a storefront checkout host. Do not claim the retail business is 90% operational because the prelaunch presentation is 90% complete.
+
+See \`SYNC-ANDROID-WEBSITE.md\` for the one-step build and exact safety boundaries. Google Play Data safety and privacy statements must be checked against the newly built AAB because it connects to GitHub Pages.
+
+
 ## October 24 2026: the unified branded preview
 
 The **public information-only brand website** is now styled to match the app concept:

@@ -37,16 +37,19 @@ jobs:
           cache-disabled: true
       - run: node scripts/android-assets.mjs
       - run: gradle -p android assembleDebug bundleRelease --no-daemon
-      - name: Ensure shipped app assets cannot accept sales
+      - name: Assert Android's offline pages are exact copies of the published preview
         run: |
           python3 - <<'PY'
-          import json,zipfile
+          import pathlib,zipfile
+          base=pathlib.Path('docs')
+          files=('index.html','site.css','mark.svg','sweets.svg','privacy.html','stockists.html','food-and-orders.html')
           with zipfile.ZipFile('android/app/build/outputs/apk/debug/app-debug.apk') as z:
-              c=json.loads(z.read('assets/config.json'))
-              assert c['acceptingRequests'] is False
-              assert c['products'] == []
-              assert c['shipping']['enabled'] is False
-              assert c['pickup']['enabled'] is False
+              names={n[len('assets/'):] for n in z.namelist() if n.startswith('assets/')}
+              assert names==set(files),names
+              for name in files:
+                  assert z.read('assets/'+name)==(base/name).read_bytes(),name
+              assert b'<form' not in z.read('assets/index.html').lower()
+          print('Android fallback exactly matches live Pages source; no commerce or user data is bundled.')
           PY
   android-preview:
     needs: check
@@ -79,15 +82,14 @@ jobs:
           "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs android/app/build/outputs/apk/debug/app-debug.apk > build-validation.txt
           "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging android/app/build/outputs/apk/debug/app-debug.apk >> build-validation.txt
           python3 - <<'PY'
-          import json,zipfile
+          import pathlib,zipfile
+          files=('index.html','site.css','mark.svg','sweets.svg','privacy.html','stockists.html','food-and-orders.html')
           with zipfile.ZipFile('android/app/build/outputs/apk/debug/app-debug.apk') as z:
-              config=json.loads(z.read('assets/config.json'))
-              assert config['acceptingRequests'] is False
-              assert config['products']==[]
-              assert config['pickup']['enabled'] is False
-              assert config['business']['email']==''
-              assert z.read('assets/index.html')
-          print('APK signature, package metadata and closed bundled catalogue checked.')
+              names={n.removeprefix('assets/') for n in z.namelist() if n.startswith('assets/')}
+              assert names==set(files),names
+              for name in files: assert z.read('assets/'+name)==pathlib.Path('docs',name).read_bytes(),name
+              assert b'<form' not in z.read('assets/index.html').lower()
+          print('APK signature, read-only website parity and offline fallback verified.')
           PY
       - name: Save installable preview in a draft release
         env:
@@ -99,4 +101,4 @@ jobs:
           cp android/app/build/outputs/apk/debug/app-debug.apk Find-The-Cash-NZ-Fudge-preview.apk
           cp android/app/build/outputs/bundle/release/app-release.aab Find-The-Cash-NZ-Fudge-unsigned.aab
           sha256sum Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab > SHA256SUMS.txt
-          gh release create "$tag" --draft --target "$GITHUB_SHA" --title "Android test build ${GITHUB_RUN_NUMBER}" --notes "Installable debug APK for testing the closed shop. Unsigned AAB is not Play-ready. No payment or live sales enabled." Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab SHA256SUMS.txt build-validation.txt
+          gh release create "$tag" --draft --target "$GITHUB_SHA" --title "Android test build ${GITHUB_RUN_NUMBER}" --notes "Installable debug APK for testing website-synced prelaunch information with an offline fallback. Unsigned AAB is not Play-ready. No products, payments or sales enabled." Find-The-Cash-NZ-Fudge-preview.apk Find-The-Cash-NZ-Fudge-unsigned.aab SHA256SUMS.txt build-validation.txt

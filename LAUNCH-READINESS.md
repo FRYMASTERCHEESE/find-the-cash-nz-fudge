@@ -1,5 +1,5 @@
 # Find The Cash NZ Fudge — launch readiness & next actions
-Updated 24 October 2026. **No live sale has been opened.** The owner does not make fudge.
+Updated 24 October 2026 with website-to-Android syncing. **No live sale has been opened.** The owner does not make fudge.
 
 ## What this release makes ready
 
@@ -7,12 +7,16 @@ Updated 24 October 2026. **No live sale has been opened.** The owner does not ma
 | --- | --- | --- |
 | Public website | Information-only prelaunch, GitHub Pages | Branded home, ideas, contact, food and customer rights, manufacturer/retailer information, privacy policy. No checkout. |
 | Website commerce source | Built but **not deployed commercially** | \`web/\` has guarded catalogue, NZD totals, verified shipping, nonbinding email order enquiries. Suitable independent host must be configured first. |
-| Android app | v1.2 (version code 3) **source/build preparation only** | Polished offline bundled preview, no actual stock, orders, payments, account logins or advertising SDK. Not the signed Google Play release. |
+| Android app | v1.3 (version code 4) **website-synced candidate only** | Online loads this project's same live prelaunch Pages website. Offline fallback copies exact public pages. No stock, orders, accounts, payments or advertising SDK; not yet signed/published in Google Play. |
 | Google Play internal test | Owner previously reported v1.1 (build 2) uploaded and internal test active | This report is historical; verify status in Play Console. Changes made in repository do NOT automatically update Google Play. |
 | Food product | **No confirmed product** | Manufacturer, sealed packaging, label, shelf life, actual batch and prices all unverified. |
 | Warehouse/inventory/order fulfilment | **Not live** | Offline private tools prepare records and an email enquiry workflow; no multi-device inventory server. |
 | Advertising | **Not enabled** | Proposed AdMob work lives in separate draft PR #1; data-safety and privacy disclosures require review before merging and releasing. |
 | Payments | **Not connected** | No charge or payment acceptance is allowed. |
+
+## Website ↔ Android syncing is prepared, not yet installed from Play
+
+The `docs/` public prelaunch pages are the single online source of truth. Android v1.3 (build 4) opens the same content over HTTPS, has a Sync button and bundles exactly these pages for offline use. Normal website copy/brand changes become visible in the updated app as soon as they are deployed and the app reconnects. This does NOT create cross-device product/customer/account/order sync, or open a commercial checkout. The older signed internal app must be replaced by a **newly signed and tested** bundle from the owner's original keystore. More: [SYNC-ANDROID-WEBSITE.md](SYNC-ANDROID-WEBSITE.md).
 
 ## Fastest realistic path
 
@@ -24,7 +28,7 @@ Updated 24 October 2026. **No live sale has been opened.** The owner does not ma
 6. **Choose initial retail SKU(s).** Start with one or two existing proven flavours only if offered by manufacturer. Don't claim "healthy", "reduced sugar", "gluten free" or a shelf-life figure unless actual label/legal conditions support it.
 7. **Supermarket pitch.** Prepare product sample, actual specifications and wholesale/carton prices; use \`templates/supermarket-product-specification.csv\`. Foodstuffs North Island welcomes emerging suppliers starting with local ranging: https://www.foodstuffs.co.nz/partnering-with-us/Becoming-a-supplier. Woolworths prospective supplier registration: https://partnerhub.woolworthsgroup.com.au/s/how-to-become-a-woolworths-supplier. Supplier applications do not guarantee acceptance.
 8. **Website selling host.** Public GitHub Pages is information-only because GitHub Pages forbids operating an online business/e-commerce checkout. Keep source on $0 GitHub. Choose a permitted static/full-stack host, review cost and commerce terms and deploy ONLY \`web/\` (never \`tools/\`, \`templates/\` or private records). Order email recipient, legal seller, real pack labels, shipping costs and inspections must be confirmed before \`acceptingRequests=true\`. No one-step automated payment is available without a verified backend and payment provider.
-9. **Android closed-testing update.** Version 1.2 (3) needs a privately signed AAB signed using the original upload key. The GitHub workflow outputs **unsigned AAB** and debug APK only; those cannot replace the Play release without signing. Reassess the Play listing and use genuine screenshots taken from the installed v1.2 app. AI concept renders are NOT acceptable as screenshots of functioning screens.
+9. **Android closed-testing update.** Version 1.3 (4) needs a privately signed AAB signed using the original upload key. The GitHub workflow outputs **unsigned AAB** and debug APK only; those cannot replace the Play release without signing. Reassess the Play listing and use genuine screenshots taken from the installed v1.2 app. AI concept renders are NOT acceptable as screenshots of functioning screens.
 10. **Test before release.** Check actual Android device layout, tap navigation, external links and mailto flows, offline recovery, Android 13+ back, privacy, large text, colour contrast, and that no payment or product listing can be triggered. Then test real order workflow on a separately hosted shop only after approved food products exist.
 11. **Ads later.** Do not merge draft AdMob PR #1 into the Play version without activating consent/disclosures and checking the merged Android manifest. If you ship an AdMob SDK build, reassess the "Ads", Advertising ID and Data safety declarations based on the actual SDK and release.
 

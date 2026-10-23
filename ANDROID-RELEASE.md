@@ -1,5 +1,7 @@
 # Android build and release handoff
 
+> **Sync update, 24 October 2026:** the latest Android release candidate is **v1.3 / build 4**, not the older v1.2 mentioned below. It displays the SAME published prelaunch website when connected, and automatically copies approved `docs/` pages into the APK for offline use. Both GitHub Actions and Android Studio run the offline asset sync. Normal public content updates flow into the installed new app via its **Sync** button; Play still needs an owner-signed AAB build 4 and real-device testing. See [SYNC-ANDROID-WEBSITE.md](SYNC-ANDROID-WEBSITE.md). Old internal build 2 remains unchanged.
+
 > **October 24 2026 addendum:** A new branded v1.2 (version code 3) Android preview source is prepared. The previous v1.1 build 2 was reportedly uploaded to Google Play internal testing by the owner's earlier Work session. Any "No Play upload" claims below refer to this document's older preparation checkpoint. To update Play, use the ORIGINAL private upload key to sign a v1.2 AAB, upload to an internal/closed test, and test on the actual device; the public GitHub workflow only produces unsigned release AABs. No new app secrets were created or published.
 >
 > New web/PWA assets include `web/launch.css`, `web/mark.svg` and `web/sweets.svg`, all bundled offline by `scripts/android-assets.mjs`. There are NO ads, payments or customer accounts in this version. The separate draft AdMob PR #1 is not part of the release.
