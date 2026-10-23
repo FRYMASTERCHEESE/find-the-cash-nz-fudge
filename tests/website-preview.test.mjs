@@ -43,5 +43,5 @@ test('the preview uses real contact channels and no tracking or fake checkout', 
  assert.match(html, /mailto:findthecashnz@gmail\.com/);
  assert.doesNotMatch(html, /google-analytics|gtag\(|facebook\.net|adsbygoogle|stripe\.com|<script\b/i);
  const policy = doc('privacy.html');
- assert.match(policy, /closed Android preview/);
+ assert.match(policy, /previously distributed bundled Android preview/);
 });
