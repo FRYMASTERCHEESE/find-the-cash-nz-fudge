@@ -58,7 +58,8 @@ public class MainActivity extends Activity {
    && PUBLIC_HOST.equals(url.getHost())
    && url.getPort() == -1
    && url.getPath() != null
-   && url.getPath().startsWith(PUBLIC_PREFIX);
+   && url.getPath().startsWith(PUBLIC_PREFIX)
+   && !url.getPath().contains("..");
  }
 
  private boolean isBundledPage(Uri url) {
@@ -139,7 +140,10 @@ public class MainActivity extends Activity {
   web.setWebViewClient(new WebViewClient() {
    @Override public WebResourceResponse shouldInterceptRequest(WebView view,WebResourceRequest request) {
     Uri url = request.getUrl();
-    if (!isBundledPage(url)) return null;
+    // Block off-site embedded images/fonts/beacons, even if later site edits
+    // introduce them: no third-party tracking in the read-only preview.
+    if (isApprovedWebsite(url)) return null;
+    if (!isBundledPage(url)) return missing();
     String path = url.getPath();
     String name = path == null || path.equals("/") ? "index.html"
      : path.startsWith("/") ? path.substring(1) : path;
